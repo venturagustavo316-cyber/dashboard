@@ -146,15 +146,18 @@ form.addEventListener("submit", async (event) => {
     });
 
     if (!resposta.ok) {
-      const erro = await resposta.json();
-      throw new Error(erro.detail || "Check the transaction details and try again.");
+      const erro = await resposta.json().catch(() => null);
+      const detalhe = typeof erro?.detail === "string" ? erro.detail : null;
+      throw new Error(detalhe || `The API could not save this transaction (HTTP ${resposta.status}).`);
     }
 
     form.reset();
     dialog.close();
     await carregarMovimentacoes();
   } catch (erro) {
-    formError.textContent = erro.message || "Could not save the transaction. Check that the API is running.";
+    formError.textContent = erro instanceof TypeError
+      ? "Could not connect to the API. Start it with: python -m uvicorn backend.api:app --reload"
+      : erro.message || "Could not save the transaction.";
   }
 });
 

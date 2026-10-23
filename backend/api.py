@@ -20,6 +20,7 @@ app.add_middleware(
         "http://127.0.0.1:5501",
         "http://localhost:5501",
     ],
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
     allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type"],
 )
