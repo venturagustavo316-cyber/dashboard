@@ -1,1 +1,9 @@
 ordem/
+
+# Python local environment and generated files
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local FinFlow database (may contain personal financial data)
+backend/finflow.db
